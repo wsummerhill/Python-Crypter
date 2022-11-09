@@ -10,6 +10,18 @@ Shellcode output formats:
 - CSharp hex format
 - Raw file output - "shellcode-raw-encrypted.bin" file in current dir
 
+**REQUIREMENTS:**<br />
+<br />
+Windows and MacOS
+```
+pip3 install pyperclip pycrypto
+```
+Linux
+```
+pip3 install pyperclip pycrypto
+sudo apt-get install xclip
+```
+
 
 ## **USAGE:**
 ```
