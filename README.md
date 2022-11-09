@@ -1,2 +1,2 @@
-# Py-Crypter
+# Python Crypter
 Custom Python shellcode encryptor and obfuscator
