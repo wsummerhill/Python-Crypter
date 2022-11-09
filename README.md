@@ -13,5 +13,18 @@ Shellcode output formats:
 
 ## **USAGE:**
 ```
-test
+python3 test.py -h
+usage: test.py [-h] [-file FILE] [-algo {xor,aes}] [-key KEY] [-output {b64,hex,csharp,raw}]
+
+Shellcode XOR/AES encrypter
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -file FILE, -f FILE   Raw binary shellcode file from C2
+  -algo {xor,aes}, -a {xor,aes}
+                        The encryption algorithm
+  -key KEY, -k KEY      Create a random encryption key or use key provide by input (Use "random" as argument
+                        or provide your own key)
+  -output {b64,hex,csharp,raw}, -o {b64,hex,csharp,raw}
+                        Type of shellcode to output (args: base64, hex, csharp, raw)
 ```
