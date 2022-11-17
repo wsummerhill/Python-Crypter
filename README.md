@@ -2,12 +2,12 @@
 
 Python3 shellcode encryptor and obfuscator script <br />
 Uses XOR or AES encryption and outputs shellcode in different encoded formats <br />
-**Runs on Windows, MacOS and Linux**<br />
+**Runs on Windows, MacOS and Linux!**<br />
 
 Shellcode output formats:
 - Base64 encoded
-- C hex format
-- CSharp hex format
+- C hex format (\x00\x00...)
+- CSharp hex format (0x00,0x00...)
 - Raw file output - "shellcode-raw-encrypted.bin" file in current dir
 
 **REQUIREMENTS:**<br />
