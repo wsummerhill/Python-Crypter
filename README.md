@@ -13,17 +13,24 @@ Shellcode output formats:
 - Raw file output - "shellcode-raw-encrypted.bin" file in current directory
 
 **REQUIREMENTS:**<br />
-<br />
 ALL Operating Systems:
 ```
 pip3 install pyperclip pycrypto pycryptodome
 ```
-Linux OS additional requirements:
+Additional Linux OS requirements:
 ```
 sudo apt-get install xclip
 ```
 
+**GETTING STARTED:**<br />
+First, generate raw shellcode from Cobalt Strike as input:
+```
+Cobalt Strike --> Payloads --> Windows Stageless Payload 
+--> Select Listener & Output = Raw
+```
+Use raw **shellcode.bin** file as input to the **Py-Crypter.py** script, or use any other file type you want to encrypt+encode!
 
+--------------------------------------
 ## **USAGE:**
 ```
 python3 test.py -h
