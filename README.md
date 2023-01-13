@@ -53,7 +53,7 @@ optional arguments:
 Format = "IyBQeXRob24gU2hlbGxjb2RlIEVuY3J5..."
 ```
 python3 Py-Crypter.py -f beacon64.bin -a xor -output b64 -k random
-[+] Encrypted BASE64 shellcode has been copied to Clipboard!)
+[+] Encrypted BASE64 shellcode has been copied to Clipboard!
 [+] XOR KEY: 07BR0DA8K7R7E11TW6GX
 ```
 
