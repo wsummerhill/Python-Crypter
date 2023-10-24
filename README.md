@@ -33,8 +33,8 @@ Use raw **shellcode.bin** file as input to the **Py-Crypter.py** script, or use 
 --------------------------------------
 ## **USAGE:**
 ```
-python3 test.py -h
-usage: test.py [-h] [-file FILE] [-algo {xor,aes}] [-key KEY] [-output {b64,hex,csharp,raw}]
+python3 Py-Crypter.py -h
+usage: Py-Crypter.py [-h] [-file FILE] [-algo {xor,aes}] [-key KEY] [-output {b64,hex,csharp,raw}]
 
 Shellcode XOR/AES encrypter
 
@@ -79,6 +79,6 @@ python3 Py-Crypter.py -f beacon64.bin -a xor -k random -o csharp
 ```
 python3 Py-Crypter.py -f beacon64.bin -a xor -o raw -k random
 [+] Saving encrypted shellcode to output binary file
-[+] Output file name: SC-raw-encrypted.bin
+[+] Output file name: shellcode-raw-encrypted.bin
 [+] XOR KEY: FL4PKBJ1AU30DBQT1W0Q
 ```
