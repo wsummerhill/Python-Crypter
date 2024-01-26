@@ -14,12 +14,14 @@ def main(args=sys.argv[1:]):
 	parser.add_argument('-algo', '-a', type=str, help="The encryption algorithm", choices=['xor', 'aes'])
 	parser.add_argument('-key', '-k', default='random', type=str, help="Create a random encryption key or use key provide by input (Use \"random\" as argument or provide your own key)")
 	parser.add_argument('-output', '-o', type=str, help="Type of shellcode to output (args: base64, hex, csharp, raw)", choices=['b64','hex','csharp','raw'])
+	parser.add_argument('-chunked', '-c', help="Split shellcode into 4 even chunks (separated by new lines)", action='store_true', required=False)
 	args = parser.parse_args(args)
 
 	inputFile = args.file
 	output = args.output
 	algo = args.algo
 	key = args.key
+	chunk = args.chunked
 
 	if not inputFile:
 		print("[-] ERROR! Missing input file parameter '-f'")
@@ -71,7 +73,7 @@ def main(args=sys.argv[1:]):
 		base64Shellcode = b64EncodeShellCode(encryptedShellCode)
 
 		# Copy base64 encrypted shellcode to clipboard
-		copyShellcodeToClipboard(base64Shellcode)
+		copyShellcodeToClipboard(base64Shellcode, chunk)
 		print("[+] Encrypted BASE64 shellcode has been copied to Clipboard!")
 
 
@@ -81,7 +83,7 @@ def main(args=sys.argv[1:]):
 		encryptedHexCode = getEncryptedHexShellcode(bytearray(encryptedShellCode))
 		
 		# Copy hex encrypted shellcode to clipboard
-		copyShellcodeToClipboard(encryptedHexCode)
+		copyShellcodeToClipboard(encryptedHexCode, chunk)
 		print("[+] Encrypted {} shellcode has been copied to Clipboard!".format(algo.upper()))
 
 
@@ -89,7 +91,7 @@ def main(args=sys.argv[1:]):
 		encryptedCSharpCode = getEncryptedHexCSharpShellcode(encryptedShellCode)
 
 		# Copy CSharp encrypted shellcode to clipboard
-		copyShellcodeToClipboard(encryptedCSharpCode)
+		copyShellcodeToClipboard(encryptedCSharpCode, chunk)
 		print("[+] Encrypted CSharp shellcode has been copied to Clipboard!")
 
 
@@ -105,7 +107,7 @@ def main(args=sys.argv[1:]):
 
 
 	########## Print encryption key ##########
-	print("[+] {} KEY: {}".format(algo.upper(), encKey)) # AES/XOR key
+	print("[+] {} Encryption KEY: {}".format(algo.upper(), encKey)) # AES/XOR key
 	# Print AES key and IV
 	if IV:
 		print('[+] AESkey[] = { 0x' + ',0x'.join(hex(x)[2:] for x in bytes(encKey, 'utf-8')) + ' };')
@@ -123,8 +125,17 @@ def getShellcode(filePath):
 		return file_shellcode
 
 
-def copyShellcodeToClipboard(shellcode):
-	pyperclip.copy(shellcode)
+def copyShellcodeToClipboard(shellcode, chunk):
+	#Check if we split shellcode into chunks from command-line input "-chunked"
+	if chunk:
+		n = round(len(shellcode) / 4)
+		print(f"[+] Chunking shellcode into 4-5 parts with average length of {n}")
+		chunks = [shellcode[i:i+n] for i in range(0, len(shellcode), n)]
+		listToStr = '\n'.join([str(elem) for i,elem in enumerate(chunks)])
+		pyperclip.copy(listToStr)
+	#Otherwise output shellcode in normal format (one long string)
+	else:
+		pyperclip.copy(shellcode)
 
 
 def b64EncodeShellCode(shellcode):
