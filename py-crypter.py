@@ -53,7 +53,7 @@ def main(args=sys.argv[1:]):
 	# Perform AES encryption
 	elif algo == 'aes':
 		# Hardcoded IV
-		IV = b'0000000000000000' 
+		IV = b'1234567890123456' 
 
 		#KEY = get_random_bytes(16)
 		AES_Key = bytes(encKey, 'utf-8')
