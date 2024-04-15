@@ -56,6 +56,7 @@ optional arguments:
 Format = "*IyBQeXRob24gU2hlbGxjb2RlIEVuY3J5...*"
 ```
 python3 Py-Crypter.py -f beacon64.bin -a xor -output b64 -k random
+[*] Shellcode input length: 334159
 [+] Encrypted BASE64 shellcode has been copied to Clipboard!
 [+] XOR KEY: 07BR0DA8K7R7E11TW6GX
 ```
@@ -64,6 +65,7 @@ python3 Py-Crypter.py -f beacon64.bin -a xor -output b64 -k random
 Format = "*\x12\x34\x56\x78\x9a...*"
 ```
 python3 Py-Crypter.py -f beacon64.bin -a aes -output hex -k MyEncryptionKey
+[*] Shellcode input length: 334159
 [+] Encrypted HEX shellcode has been copied to Clipboard!
 [+] AES KEY: mykeymykeyasdfgh
 [+] AESkey[] = { 0x6d,0x79,0x6b,0x65,0x79,0x6d,0x79,0x6b,0x65,0x79,0x61,0x73,0x64,0x66,0x67,0x68 };
@@ -74,6 +76,7 @@ python3 Py-Crypter.py -f beacon64.bin -a aes -output hex -k MyEncryptionKey
 Format = "*0xc9,0x1f,0xb3,0xac,0xc0,0xac,0x94,0x34...*"
 ```
 python3 Py-Crypter.py -f beacon64.bin -a xor -k random -o csharp
+[*] Shellcode input length: 334159
 [+] Encrypted CSharp shellcode has been copied to Clipboard!
 [+] XOR KEY: 5W0H0DT4U1FS0CKP
 ```
@@ -86,6 +89,7 @@ Format = <br />
 *NktSNzhOcLrBVjNRSwaPdr0k1cjt9dgqZl1z6+3...*<br />
 ```
 python3 Py-Crypter.py -f beacon64.bin -a xor -k random -o b64 -chunked
+[*] Shellcode input length: 334159
 [+] Chunking shellcode into 4-5 parts with average length of 92
 [+] Encrypted BASE64 shellcode has been copied to Clipboard!
 [+] XOR Encryption KEY: KR78N87LW2QKG5G6
@@ -94,6 +98,7 @@ python3 Py-Crypter.py -f beacon64.bin -a xor -k random -o b64 -chunked
 **RAW binary, XOR encrypted output (UTF-8 encoding)**
 ```
 python3 Py-Crypter.py -f beacon64.bin -a xor -o raw -k random
+[*] Shellcode input length: 334159
 [+] Saving encrypted shellcode to output binary file
 [+] Output file name: shellcode-raw-encrypted.bin
 [+] XOR KEY: FL4PKBJ1AU30DBQT1W0Q
