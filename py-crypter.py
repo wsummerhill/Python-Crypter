@@ -39,7 +39,10 @@ def main(args=sys.argv[1:]):
 	IV = None # init IV for AES
 
 	# Get shellcode from input file
+	print(f"[*] Getting shellcode from file: {inputFile}")
 	shellcode = getShellcode(inputFile)
+
+	print(f'[*] Shellcode input length: {len(shellcode)}')
 	
 	if key == 'random':
 		encKey = ''.join(random.choices(string.ascii_uppercase + string.digits, k=16))
@@ -52,7 +55,7 @@ def main(args=sys.argv[1:]):
 
 	# Perform AES encryption
 	elif algo == 'aes':
-		# Hardcoded IV
+		# Hardcoded IV - Change as needed
 		IV = b'1234567890123456' 
 
 		#KEY = get_random_bytes(16)
