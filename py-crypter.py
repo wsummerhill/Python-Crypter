@@ -39,7 +39,6 @@ def main(args=sys.argv[1:]):
 	IV = None # init IV for AES
 
 	# Get shellcode from input file
-	print(f"[*] Getting shellcode from file: {inputFile}")
 	shellcode = getShellcode(inputFile)
 
 	print(f'[*] Shellcode input length: {len(shellcode)}')
