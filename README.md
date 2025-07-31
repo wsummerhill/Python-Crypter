@@ -11,6 +11,7 @@ Shellcode output formats:
 - C hex format (`\x00\x01...`)
 - CSharp hex format (`0x00,0x01...`)
 - Chunked shellcode - Output any of the above encrypted formats and split shellcode into even "chunks" on 4 to 5 newlines
+- Manifest file - Output shellcode into an embedded 'config.manifest' file that's encrypted + hex encoded
 - Raw file output - `shellcode-raw-encrypted.bin` file in current directory
 
 
@@ -47,8 +48,8 @@ optional arguments:
                         The encryption algorithm
   -key KEY, -k KEY      Create a random encryption key or use key provide by input (Use "random" as argument
                         or provide your own key)
-  -output {b64,hex,csharp,raw}, -o {b64,hex,csharp,raw}
-                        Type of shellcode to output (args: base64, hex, csharp, raw)
+  -output {b64,hex,csharp,manifest,raw}, -o {b64,hex,csharp,manifest,raw}
+                        Type of shellcode to output (args: base64, hex, csharp, manifest, raw)
   -chunked, -c          Split shellcode into 4 even chunks (separated by new lines)
 ```
 
@@ -93,6 +94,15 @@ python3 Py-Crypter.py -f beacon64.bin -a xor -k random -o b64 -chunked
 [+] Chunking shellcode into 4-5 parts with average length of 92
 [+] Encrypted BASE64 shellcode has been copied to Clipboard!
 [+] XOR Encryption KEY: KR78N87LW2QKG5G6
+```
+
+**Manifest file output - Creates 'config'manifest' file with embedded shellcode**
+```
+python3 Py-Crypter.py -f beacon64.bin -a xor -k random -o manifest
+[*] Getting shellcode from file: calc-x64.bin
+[+] Manifest shellcode file contents copied to Clipboard!
+[+] Successfully created manifest file: 'config.manifest'
+[+] XOR KEY: LM2S20LUE87YKFR2
 ```
 
 **RAW binary, XOR encrypted output (UTF-8 encoding)**
