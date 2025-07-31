@@ -11,7 +11,7 @@ Shellcode output formats:
 - C hex format (`\x00\x01...`)
 - CSharp hex format (`0x00,0x01...`)
 - Chunked shellcode - Output any of the above encrypted formats and split shellcode into even "chunks" on 4 to 5 newlines
-- Manifest file - Output shellcode into an embedded 'config.manifest' file that's encrypted + hex encoded
+- Manifest file - Output encoded shellcode into an embedded `config.manifest` file
 - Raw file output - `shellcode-raw-encrypted.bin` file in current directory
 
 
@@ -26,12 +26,13 @@ sudo apt-get install xclip
 ```
 
 **GETTING STARTED:**<br />
-First, generate raw shellcode from Cobalt Strike as input:
+First, generate raw shellcode from Cobalt Strike or any C2 as your input.
 ```
+# Cobalt Strike shellcode generation
 Cobalt Strike --> Payloads --> Windows Stageless Payload 
 --> Select Listener & Output = Raw
 ```
-Use raw **shellcode.bin** file as input to the **Py-Crypter.py** script, or use any other file type you want to encrypt+encode!
+Use raw **shellcode.bin** file as input to the **Py-Crypter.py** script, or use any other file type you want to encode+encrypt!
 
 --------------------------------------
 ## **USAGE:**
@@ -99,10 +100,10 @@ python3 Py-Crypter.py -f beacon64.bin -a xor -k random -o b64 -chunked
 **Manifest file output - Creates 'config'manifest' file with embedded shellcode**
 ```
 python3 Py-Crypter.py -f beacon64.bin -a xor -k random -o manifest
-[*] Getting shellcode from file: calc-x64.bin
+[*] Shellcode input length: 276
 [+] Manifest shellcode file contents copied to Clipboard!
 [+] Successfully created manifest file: 'config.manifest'
-[+] XOR KEY: LM2S20LUE87YKFR2
+[+] XOR Encryption KEY: Z69FT41P4253SJKC
 ```
 
 **RAW binary, XOR encrypted output (UTF-8 encoding)**
